@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EmailMenager.Models.Domains.Email>
+
+@{
+    ViewBag.Title = "Historia";
+}
+
+<h2>Historia</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-hover table-striped" mt-3 mb-5>
+        <thead>
+            <tr>
+                <th scope="col">Tytuł</th>
+                <th scope="col">Nazwa nadawcy</th>
+                <th scope="col">Nazwa odbiorcy</th>
+                <th scope="col">Treść</th>
+                <th scope="col">Data</th>
+                <th scope="col">Załącznik</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var email in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="fw-bold"
+                           href="@Url.Action("Email", "Home",
+                            new { id = email.Id})">
+                            @email.Subject
+                        </a>
+                    </td>
+                    <td>@email.SenderName</td>
+                    <td>@email.ReciverEmail</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(email.Body) && email.Body.Length > 50)
+                        {
+                            <span>@Html.Raw(email.Body.Substring(0, 50))</span>
+                        }
+                        else
+                        {
+                            <span>@Html.Raw(email.Body)</span>
+                        }
+                    </td>
+                    <td>@email.PostDate</td>
+                    <td>
+                        <a class="fw-bold"
+                           href="@Url.Action("DownloadFile", "Home",
+                           new { id = email.Id})">
+                            @email.FileName
+                        </a>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteInvoice('@email.Id', this)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>
+        Brak emaili do wyświetlenia
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function deleteInvoice(id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć email?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("Delete", "Home")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.Success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.Message);
+                    }
+                },
+                erroe: function (data) {
+                    alert(data.Message);
+                },
+                dataType: 'json'
+            });
+
+        }
+
+    </script>
+
+}

@@ -1,0 +1,47 @@
+﻿@model EmailMenager.Models.Domains.Email
+
+@{
+    ViewBag.Title = "Email";
+}
+
+<h2>Email</h2>
+
+@if(Model != null)
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-3">
+                <strong>@Model.SenderName</strong> reportsevice99@gmail.com
+            </div>
+
+            <div>
+                <strong>Do:</strong> @Model.ReciverEmail
+            </div>
+        </div>
+
+        <div class="col-5 offset-lg-1">
+            <div class="mb-3 float-end">
+                @Model.PostDate
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <textarea class="mb-3" wrap="hard" rows="20" readonly>@Model.Body</textarea>
+        <hr />
+        <div class="mb-3">
+            Załącznik:
+            <a class="fw-bold"
+               href="@Url.Action("DownloadFile", "Home",
+                new { id = Model.Id })">
+                @Model.FileName
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        Brak emaila do wyświetlenia
+    </div>
+}

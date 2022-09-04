@@ -1,0 +1,93 @@
+﻿@model EmailMenager.Models.Domains.Config
+
+@{
+    ViewBag.Title = "Config";
+}
+
+<h2>Konfiguracja</h2>
+@if (ViewBag.configError == 1)
+{
+    <div class="row">
+        <p class="alert alert-danger mt-4 mb-4">
+            <strong>Uzupełnij dane konfiguracyjne!</strong>
+        </p>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        @using (Html.BeginForm("Config", "Home"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Email, new { @class = "mb-2" })
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.PasswordEmail, new { @class = "mb-2" })
+                @Html.PasswordFor(x => x.PasswordEmail, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.PasswordEmail)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Host, new { @class = "mb-2" })
+                @Html.TextBoxFor(x => x.Host, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Host)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Port, new { @class = "mb-2" })
+                @Html.TextBoxFor(x => x.Port, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Port)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.EnableSsl, new { @class = "mb-2" })
+                @Html.CheckBoxFor(x => x.EnableSsl, new { @class = "form-check-input", type = "checkbox" })
+            </div>
+
+            <button class="btn btn-primary btn-lg mb-5 float-end" type="submit">Zapisz</button>
+        }
+    </div>
+
+    <div class="col-5 offset-lg-1">
+        @if (ViewBag.configError != 1)
+        {
+            <div class="row">
+                <table class="table table-hover table-striped mt-3 mb-5">
+                    <thead>
+                        <tr>
+                            <th>Aktualna konfiguracja</th>
+                        </tr>                        
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>@Model.Email</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Host</th>
+                            <td>@Model.Host</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Port</th>
+                            <td>@Model.Port</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Włączone Ssl</th>
+                            <td>@Model.EnableSsl</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Data</th>
+                            <td>@Model.CreatedDate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+

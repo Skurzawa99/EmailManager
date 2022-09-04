@@ -1,0 +1,29 @@
+﻿@model IEnumerable<EmailMenager.Models.Domains.Config>
+
+<div class="row">
+    <h2>Historia konfiguracji</h2>
+
+    <table class="table table-hover table-striped mt-3 mb-5">
+        <thead>
+            <tr>
+                <th scole="col">Lp</th>
+                <th scole="col">Email</th>
+                <th scole="col">Host</th>
+                <th scole="col">Port</th>
+                <th scole="col">Włączone Ssl</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var position in Model)
+            {
+            <tr>
+                <td>@position.Id</td>
+                <td>@position.Email</td>
+                <td>@position.Host</td>
+                <td>@position.Port</td>
+                <td>@position.EnableSsl</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
